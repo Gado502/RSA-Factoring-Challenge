@@ -1,0 +1,27 @@
+import gmpy2
+import time
+
+def pollard_rho(n):
+    x = 2
+    y = 2
+    d = 1
+
+    while d == 1:
+        x = (x*x + 1) % n
+        y = (y*y + 1) % n
+        y = (y*y + 1) % n
+        d = gmpy2.gcd(abs(x-y), n)
+    
+    return int(d), int(n / d)
+
+if __name__ == "__main__":
+    with open('rsa', 'r') as file:
+        number = int(file.read())
+    
+    start_time = time.time()
+    p, q = pollard_rho(number)
+    end_time = time.time()
+
+    print(f"p = {p}, q = {q}")
+    print(f"Elapsed time: {end_time - start_time} seconds")
+
